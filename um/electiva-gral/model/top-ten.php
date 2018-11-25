@@ -58,11 +58,7 @@ class TopTen {
         /* Insert multiple records on an all-or-nothing basis */
         $topTen_arr = $this->read();
 
-        var_dump(sizeof($topTen_arr["score"]));
-
         $lastPlayInTopTen = end($topTen_arr["score"]);
-
-        var_dump($lastPlayInTopTen);
 
         if(sizeof($topTen_arr["score"]) < 10) {
             $this->create();
@@ -112,6 +108,19 @@ class TopTen {
 
         // bind id of record to delete
         $stmt->bindParam(1, $this->id);
+
+        // execute query
+        if($stmt->execute()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function reset() {
+        $query = "DELETE FROM " . $this->table_name;
+        // prepare query
+        $stmt = $this->conn->prepare($query);
 
         // execute query
         if($stmt->execute()) {
