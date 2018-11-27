@@ -55,25 +55,37 @@ class TopTen {
     }
 
     function addToTopTen() {
+        $success = false;
         /* Insert multiple records on an all-or-nothing basis */
         $topTen_arr = $this->read();
 
-        $lastPlayInTopTen = end($topTen_arr["score"]);
+        $lastPlayInTopTen_arr = end($topTen_arr["score"]);
 
+        // $this is the new play
         if(sizeof($topTen_arr["score"]) < 10) {
             $this->create();
+            $success = true;
         } else {
-            if($newPlay->attempts < $lastPlayInTopTen->attempts) {
+            // initialize object
+            $lastPlayInTopTen = new TopTen($this->conn);
+            // set properties
+            $lastPlayInTopTen->id = $lastPlayInTopTen_arr["id"];
+            $lastPlayInTopTen->name = $lastPlayInTopTen_arr["name"];
+            $lastPlayInTopTen->attempts = $lastPlayInTopTen_arr["attempts"];
+            $lastPlayInTopTen->date = $lastPlayInTopTen_arr["date"];
+            
+            if($this->attempts < $lastPlayInTopTen->attempts) {
                 $lastPlayInTopTen->delete();
                 $this->create();
             }
+            $success = true;
         }
 
         // Lock and Unlock
         // $stmt = $this->conn->prepare("LOCK TABLES " . $this->table_name . " WRITE");
         // $stmt = $this->conn->prepare("UNLOCK TABLES");
 
-        return true;
+        return $success;
     }
 
     function create() {
