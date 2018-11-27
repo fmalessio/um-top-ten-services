@@ -63,7 +63,7 @@ class TopTen {
         if(sizeof($topTen_arr["score"]) < 10) {
             $this->create();
         } else {
-            if($lastPlayInTopTen->attempts < $newPlay->attempts) {
+            if($newPlay->attempts < $lastPlayInTopTen->attempts) {
                 $lastPlayInTopTen->delete();
                 $this->create();
             }
