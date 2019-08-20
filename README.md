@@ -91,7 +91,7 @@ Ejemplo:
 }
 ```
 	
-### PUT /api/top-ten/reset.php
+### POST /api/top-ten/save.php
 
 * 200 - OK --> Si se ha completado correctamente.
 Este servicio obtiene la lista de Top Ten y verifica si el juegador enviado debe o no ingregesar.
@@ -123,3 +123,6 @@ Ejemplo:
 	[Status 200 OK]
 ```
 
+### PUT /api/top-ten/reset.php
+
+* Reiniciará el Top Ten, borrando todos los registros para comenzar desde cero.
